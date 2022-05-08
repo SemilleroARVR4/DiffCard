@@ -22,6 +22,8 @@ public class SceneControl : MonoBehaviour
     private Sprite[] images;
     [SerializeField]
     private Text scoreLabel;
+    [SerializeField]
+    private GameObject juego;
 
 
 
@@ -43,7 +45,8 @@ public class SceneControl : MonoBehaviour
                 }
                 else 
                 {
-                    card = Instantiate(originalCard) as CardDefinition;
+                    card = Instantiate(originalCard, juego.transform) as CardDefinition;
+                    card.transform.SetParent(juego.transform);
                 }
 
                 int index = j * griCols + i;

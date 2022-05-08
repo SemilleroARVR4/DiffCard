@@ -24,7 +24,7 @@ public class CardDefinition : MonoBehaviour
     public void ChangeSprite(int id, Sprite image)
     {
         _id = id;
-        GetComponent<SpriteRenderer>().sprite = image;
+        GetComponent<Image>().sprite = image;
     }
 
     public void Unreveal() 
