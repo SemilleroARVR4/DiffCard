@@ -10,13 +10,19 @@ public class SceneControl : MonoBehaviour
     public const int griCols = 4;
     public const float offsetX = 2f;
     public const float offeseY = 3f;
+    private bool _state = true;
+    private int _score = 0;
+
+    private CardDefinition _firstReveaked;
+    private CardDefinition _sconRevealed;
 
     [SerializeField]
     private CardDefinition originalCard;
     [SerializeField]
     private Sprite[] images;
+    [SerializeField]
+    private Text scoreLabel;
 
-    public int score = 0;
 
 
     // Start is called before the first frame update
@@ -65,16 +71,6 @@ public class SceneControl : MonoBehaviour
         return newArray;
     }
 
-    private CardDefinition _firstReveaked;
-    private CardDefinition _sconRevealed;
-
-    private int _score = 0;
-
-    [SerializeField]
-    private Text scoreLabel;
-
-    public bool canReveal { get { return _sconRevealed = null; }}
-
     public void CardRevealed(CardDefinition card) 
     {
         if (_firstReveaked == null)
@@ -90,6 +86,7 @@ public class SceneControl : MonoBehaviour
 
     private IEnumerator CheckedMatch() 
     {
+        _state = false;
         if (_firstReveaked.id == _sconRevealed.id)
         {
             _score++;
@@ -108,11 +105,12 @@ public class SceneControl : MonoBehaviour
 
         _firstReveaked = null;
         _firstReveaked = null;
+        _state = true;
     }
 
-    void cardCoparion(List<int> c) 
-    {
 
-    }
+    public bool canReveal { get { return _sconRevealed = null; } }
+    public bool state { get { return _state; } }
+
 
 }

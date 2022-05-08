@@ -14,8 +14,7 @@ public class CardDefinition : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //Rotar();
-        if (Carta.activeSelf) 
+        if (Carta.activeSelf && controller.state)
         {
             Carta.SetActive(false);
             controller.CardRevealed(this);
