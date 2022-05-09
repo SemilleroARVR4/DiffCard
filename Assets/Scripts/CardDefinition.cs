@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class CardDefinition : MonoBehaviour
 {
     [SerializeField] 
-    private SceneControl controller;
-    [SerializeField] 
+    private MechanicalControl controller;
+    [SerializeField]
     private GameObject Carta;
 
     private int _id;
@@ -35,4 +35,8 @@ public class CardDefinition : MonoBehaviour
 
     public int id { get { return _id; } }
 
+    public void ActivarCartaInicial(bool a) 
+    {
+        gameObject.SetActive(a);
+    }
 }
