@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class SceneControl : MonoBehaviour
 {
     public const int griRows = 2;
-    public const int griCols = 4;
+    public const int griCols = 8;
     public const float offsetX = 2f;
-    public const float offeseY = 3f;
+    public const float offeseY = 3.5f;
     private bool _state = true;
     private int _score = 0;
 
@@ -31,7 +31,7 @@ public class SceneControl : MonoBehaviour
     void Start()
     {
         Vector3 startPos = originalCard.transform.position;
-        int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3 };
+        int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
         numbers = ShufflerArray(numbers);
 
         for (int i = 0; i < griCols; i ++) 
@@ -48,9 +48,11 @@ public class SceneControl : MonoBehaviour
                     card = Instantiate(originalCard, juego.transform) as CardDefinition;
                     card.transform.SetParent(juego.transform);
                 }
-
+                
                 int index = j * griCols + i;
+                //Debug.Log(index + ", " + i + ", " + j);
                 int id = numbers[index];
+                Debug.Log(id);
                 card.ChangeSprite(id, images[id]);
 
                 float posX = (offsetX * i) + startPos.x;
