@@ -10,11 +10,13 @@ public class Timer : MonoBehaviour
     float timeLeft;
     float timeInitial;
     public GameObject timeUpText;
+    public GameObject ganador;
     public bool _con = false;
     [SerializeField]
     private GameController _GController;
+    [SerializeField]
+    private MechanicalControl _Mechanica;
 
-    private bool _lecturaInicial = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,31 +31,30 @@ public class Timer : MonoBehaviour
     {
         if (_con == true) 
         {
-            if (_lecturaInicial)
-            {
-                timeInitial = Time.deltaTime;
-                timeLeft = timeInitial + maxTime;
-                _lecturaInicial = false;
-                Time.timeScale = 1f;
-                Debug.Log("Lectura Inicial"+ timeLeft);
-                timeUpText.SetActive(false);
-            }
-            else if (timeLeft > 0) 
+            if (timeLeft > 0 && !_Mechanica.gameCompleted)
             {
                 timeLeft -= Time.deltaTime;
-                timbeBar.fillAmount = timeLeft / (maxTime+timeInitial);
-                Debug.Log("Tiempo_disponible");
+                timbeBar.fillAmount = timeLeft / (maxTime + timeInitial);
             }
-            else
+            else if (timeLeft <= 0)
             {
                 timeUpText.SetActive(true);
-                _GController.ActivarEscenaPostJuego();
-                Time.timeScale = 0;
-                _lecturaInicial = true;
-                Debug.Log("Fin_tiempo");
-
-            } 
+                StartCoroutine(Wait());
+                //Time.timeScale = 0;
+            }
+            else if (_Mechanica.gameCompleted) 
+            {
+                ganador.SetActive(true);
+                StartCoroutine(Wait());
+            }
         }
   
     }
+
+    private IEnumerator Wait() 
+    {
+        yield return new WaitForSeconds(3f);
+        _GController.ActivarEscenaPostJuego();
+    }
+
 }

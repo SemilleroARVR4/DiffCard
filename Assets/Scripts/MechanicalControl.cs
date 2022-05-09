@@ -12,6 +12,7 @@ public class MechanicalControl : MonoBehaviour
     public const float offeseY = 3.5f;
     private bool _state = true;
     private int _score = 0;
+    public bool gameCompleted;
 
     private CardDefinition _firstReveaked;
     private CardDefinition _sconRevealed;
@@ -32,12 +33,12 @@ public class MechanicalControl : MonoBehaviour
     [SerializeField]
     private GameController _GameController;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("WaitSecond");      
+        DecidirTema(PlayerPrefs.GetString("Tema"));
+        StartCoroutine(WaitSecond());
+        
     }
 
     private int[] ShufflerArray(int[] numbers) 
@@ -73,10 +74,10 @@ public class MechanicalControl : MonoBehaviour
         {
             _score++;
             scoreLabel.text = "Score: " + _score;
-            if (_score == griCols) 
+            if (_score == griCols)
             {
                 Debug.Log("Ganaste ^-^");
-                _GameController.ActivarEscenaPostJuego();
+                gameCompleted = true;
             }
         }
         else 
@@ -94,6 +95,7 @@ public class MechanicalControl : MonoBehaviour
     private IEnumerator WaitSecond() 
     {
         Debug.Log("Esperando");
+        //Time.timeScale = 1;
         yield return new WaitForSeconds(3f);
         Debug.Log("Listo");
 
@@ -133,7 +135,7 @@ public class MechanicalControl : MonoBehaviour
             _Timer._con = true;
         }
 
-        StopCoroutine("WaitSecond");
+       // StopCoroutine(WaitSecond());
     }
 
     public void DecidirTema(string tema)
