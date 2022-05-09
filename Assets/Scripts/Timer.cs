@@ -8,9 +8,13 @@ public class Timer : MonoBehaviour
     Image timbeBar;
     public float maxTime = 5f;
     float timeLeft;
+    float timeInitial;
     public GameObject timeUpText;
     public bool _con = false;
+    [SerializeField]
+    private GameController _GController;
 
+    private bool _lecturaInicial = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,17 +29,30 @@ public class Timer : MonoBehaviour
     {
         if (_con == true) 
         {
-            if (timeLeft > 0)
+            if (_lecturaInicial)
+            {
+                timeInitial = Time.deltaTime;
+                timeLeft = timeInitial + maxTime;
+                _lecturaInicial = false;
+                Time.timeScale = 1f;
+                Debug.Log("Lectura Inicial"+ timeLeft);
+                timeUpText.SetActive(false);
+            }
+            else if (timeLeft > 0) 
             {
                 timeLeft -= Time.deltaTime;
-                timbeBar.fillAmount = timeLeft / maxTime;
+                timbeBar.fillAmount = timeLeft / (maxTime+timeInitial);
+                Debug.Log("Tiempo_disponible");
             }
             else
             {
                 timeUpText.SetActive(true);
+                _GController.ActivarEscenaPostJuego();
                 Time.timeScale = 0;
+                _lecturaInicial = true;
+                Debug.Log("Fin_tiempo");
 
-            }
+            } 
         }
   
     }

@@ -75,7 +75,6 @@ public class MechanicalControl : MonoBehaviour
             scoreLabel.text = "Score: " + _score;
             if (_score == griCols) 
             {
-
                 Debug.Log("Ganaste ^-^");
                 _GameController.ActivarEscenaPostJuego();
             }
