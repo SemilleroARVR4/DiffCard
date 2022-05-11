@@ -571,7 +571,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -69.6, y: -19.5}
+  m_AnchoredPosition: {x: -10, y: -19.5}
   m_SizeDelta: {x: 15.127, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1261203804
@@ -984,6 +984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63e0edc8c0484064fb4ba5f8ae7640a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  griCols: 8
   gameCompleted: 0
   originalCard: {fileID: 1261203807}
   images_Frutas:
@@ -1057,7 +1058,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 18.5, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1729111440

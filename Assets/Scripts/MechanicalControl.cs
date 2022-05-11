@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MechanicalControl : MonoBehaviour
 {
     public const int griRows = 2;
-    public const int griCols = 8;
+    public int griCols = 8;
     public const float offsetX = 2f;
     public const float offeseY = 3.5f;
     private bool _state = true;
@@ -36,22 +36,23 @@ public class MechanicalControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Vector3 origPos = originalCard.transform.position;
+        griCols = PlayerPrefs.GetInt("Parejas");
+        originalCard.transform.position = new Vector3(origPos.x - griCols, origPos.y, origPos.z);
         DecidirTema(PlayerPrefs.GetString("Tema"));
-        StartCoroutine(WaitSecond());
-        
+        StartCoroutine(WaitSecond());  
     }
 
-    private int[] ShufflerArray(int[] numbers) 
+    private List<int> ShufflerArray(List<int> numbers) 
     {
-        int[] newArray = numbers.Clone() as int[];
-        for (int i = 0; i < newArray.Length; i++) 
+        for (int i = 0; i < numbers.Count; i++) 
         {
-            int tmp = newArray[i];
-            int r = Random.Range(i,newArray.Length);
-            newArray[i] = newArray[r];
-            newArray[r] = tmp;
+            int tmp = numbers[i];
+            int r = Random.Range(i,numbers.Count);
+            numbers[i] = numbers[r];
+            numbers[r] = tmp;
         }
-        return newArray;
+        return numbers;
     }
 
     public void CardRevealed(CardDefinition card) 
@@ -100,7 +101,7 @@ public class MechanicalControl : MonoBehaviour
         Debug.Log("Listo");
 
         Vector3 startPos = originalCard.transform.position;
-        int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
+        List<int> numbers = DecidirParejas(PlayerPrefs.GetInt("Parejas"));
 
         numbers = ShufflerArray(numbers);
 
@@ -122,7 +123,6 @@ public class MechanicalControl : MonoBehaviour
                 }
 
                 int index = j * griCols + i;
-                //Debug.Log(index + ", " + i + ", " + j);
                 int id = numbers[index];
 
                 card.ChangeSprite(id, images[id]);
@@ -147,6 +147,24 @@ public class MechanicalControl : MonoBehaviour
         {
             images = images_Animales;
         }
+    }
+
+    public List<int> DecidirParejas(int nParejas) 
+    {
+        List<int> numbers = new();
+        //int[] numbers = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7 };
+        for (int index = 0; index < nParejas; index++)
+        {
+            numbers.Add(index);
+            numbers.Add(index);
+        }
+
+        return numbers;
+    }
+
+    public void UbicarCartas() 
+    {
+
     }
 
     public bool canReveal { get { return _sconRevealed = null; } }
