@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class InitialController : MonoBehaviour
 {
@@ -9,28 +10,38 @@ public class InitialController : MonoBehaviour
     GameObject _InicioScene;
     [SerializeField]
     GameObject _RegistroScene;
+    private double tiempoSesion;
+    public Main main;
 
     // Start is called before the first frame update
     void Start()
     {
+        main = FindObjectOfType<Main>();
+
+        main.UserInfo.ResetInfo();
+        main.SessionInfo.ResetInfo();
+        main.MatchGameInfo.ResetInfo();
+        main.PerformanceInfo.ResetInfo();
+
+
+        Time.timeScale = 0;
+        tiempoSesion = main.SessionInfo.Totaltime;
+
+        string format = "dd MMM yyyy";
+        main.SessionInfo.SetDate(DateTime.Now.ToString(format));
+
         _InicioScene.SetActive(true);
         _RegistroScene.SetActive(false);
     }
-
-    // Inicio
-
+    
     public void EjecutarBtnInicio(string a)
     {
         switch (a)
         {
-            case "Iniciar":
-                _InicioScene.SetActive(false);
-                _RegistroScene.SetActive(false);
-                SceneManager.LoadScene("Menu_Game");
-                break;
             case "Registro":
                 _InicioScene.SetActive(false);
                 _RegistroScene.SetActive(true);
+                Debug.Log(Time.deltaTime);
                 break;
         }
     }
@@ -39,14 +50,12 @@ public class InitialController : MonoBehaviour
     {
         switch (a)
         {
-            case "Registrar":
-
-                break;
             case "Cancelar":
                 _InicioScene.SetActive(true);
                 _RegistroScene.SetActive(false);
                 break;
         }
     }
+    
 
 }

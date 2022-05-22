@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,13 +19,27 @@ public class MenuGameController : MonoBehaviour
     private int index_T = 0;
     private int nParejas = 4;
     private int maxParejas = 8;
+    private double tiempoSesion;
+    public Main main;
+
     private void Start()
     {
+        main = FindObjectOfType<Main>();
+        Time.timeScale = 1;
+
+        tiempoSesion = main.SessionInfo.Totaltime;
+
         textTema.text = "Frutas";
         textParejas.text = "4";
-        temasJuego = new string[] {"Frutas","Animales"};
-        
+        temasJuego = new string[] {"Frutas","Animales"};    
     }
+
+    private void Update()
+    {
+        tiempoSesion += Time.deltaTime;
+        main.SessionInfo.SetTotalTime(Math.Round(tiempoSesion,2));
+    }
+
     public void EjecutarBtnMenuPrincipal(string a)
     {
 
@@ -63,13 +78,25 @@ public class MenuGameController : MonoBehaviour
                 textParejas.text = nParejas.ToString();
                 break;
             case "Jugar":
-                PlayerPrefs.SetString("Tema", temasJuego[index_T]);
-                PlayerPrefs.SetInt("Parejas", nParejas);
+
+                main.MatchGameInfo.SetTheme(temasJuego[index_T]);
+                main.MatchGameInfo.SetArraySize(nParejas);
+
                 SceneManager.LoadScene("Game");
                 break;
-                   
-               
+                        
         }
     }
+
+
+    private void OnApplicationQuit()
+    {
+        double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
+        int numbergames = main.SessionInfo.NumberGames;
+        string idSession = main.SessionInfo.SessionId;
+
+        StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
+    }
+
 
 }

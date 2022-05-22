@@ -9,6 +9,6 @@ public class Encuesta : MonoBehaviour
 
     public void RegistrarValorEncuesta(int a) 
     {
-        Debug.Log(a);
+        //Debug.Log(a);
     }
 }

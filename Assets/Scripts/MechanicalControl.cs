@@ -8,11 +8,13 @@ public class MechanicalControl : MonoBehaviour
 {
     public const int griRows = 2;
     public int griCols = 8;
-    public const float offsetX = 2f;
-    public const float offeseY = 3.5f;
+    public const float offsetX = 60f;
+    public const float offeseY = 100f;
     private bool _state = true;
-    private int _score = 0;
+    public int _score = 0;
     public bool gameCompleted;
+    public float TTPareja = 0f;
+    public float avgPareja = 0f;
 
     private CardDefinition _firstReveaked;
     private CardDefinition _sconRevealed;
@@ -32,14 +34,19 @@ public class MechanicalControl : MonoBehaviour
     private Timer _Timer;
     [SerializeField]
     private GameController _GameController;
+    Main main;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        main = FindObjectOfType<Main>();
         Vector3 origPos = originalCard.transform.position;
-        griCols = PlayerPrefs.GetInt("Parejas");
-        originalCard.transform.position = new Vector3(origPos.x - griCols, origPos.y, origPos.z);
-        DecidirTema(PlayerPrefs.GetString("Tema"));
+
+        griCols = main.MatchGameInfo.Arraysize;
+        originalCard.transform.position = new Vector3(origPos.x - offsetX*3, origPos.y, origPos.z);
+
+        DecidirTema(main.MatchGameInfo.Theme);
         StartCoroutine(WaitSecond());  
     }
 
@@ -73,8 +80,20 @@ public class MechanicalControl : MonoBehaviour
         _state = false;
         if (_firstReveaked.id == _sconRevealed.id)
         {
+            _firstReveaked.iniTiempoP = false;
+            _sconRevealed.iniTiempoP = false;
+            if (_firstReveaked.tiempoPareja >= _sconRevealed.tiempoPareja)
+            {
+                TTPareja += _firstReveaked.tiempoPareja;
+            }
+            else 
+            {
+                TTPareja += _sconRevealed.tiempoPareja;
+            }
+
             _score++;
             scoreLabel.text = "Score: " + _score;
+            avgPareja = TTPareja / _score;
             if (_score == griCols)
             {
                 Debug.Log("Ganaste ^-^");
@@ -101,7 +120,7 @@ public class MechanicalControl : MonoBehaviour
         Debug.Log("Listo");
 
         Vector3 startPos = originalCard.transform.position;
-        List<int> numbers = DecidirParejas(PlayerPrefs.GetInt("Parejas"));
+        List<int> numbers = DecidirParejas(main.MatchGameInfo.Arraysize);
 
         numbers = ShufflerArray(numbers);
 
@@ -160,11 +179,6 @@ public class MechanicalControl : MonoBehaviour
         }
 
         return numbers;
-    }
-
-    public void UbicarCartas() 
-    {
-
     }
 
     public bool canReveal { get { return _sconRevealed = null; } }
