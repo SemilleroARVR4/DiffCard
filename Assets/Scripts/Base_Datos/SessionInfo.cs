@@ -7,7 +7,7 @@ public class SessionInfo : MonoBehaviour
     public string SessionId { get; private set;}
     public string SessionDate { get; private set;}
     public double Totaltime { get; private set; }
-    public int NumberGames { get; private set; }
+    public int NumberGames { get; private set; } = 1;
     public string IdUser { get; private set;}
 
 

@@ -14,8 +14,8 @@ public class Web : MonoBehaviour
 
     IEnumerator GetUsers()
     {
-        string uri = "https://porose-poisons.000webhostapp.com/sqlconnect/GetUser.php";
-        using (UnityWebRequest webRequest = UnityWebRequest.Get("https://porose-poisons.000webhostapp.com/sqlconnect/GetUser.php"))
+        string uri = "http://porose-poisons.000webhostapp.com/sqlconnect/GetUser.php";
+        using (UnityWebRequest webRequest = UnityWebRequest.Get("http://porose-poisons.000webhostapp.com/sqlconnect/GetUser.php"))
         {
             // Request and wait for the desired page.
             yield return webRequest.SendWebRequest();
@@ -45,7 +45,7 @@ public class Web : MonoBehaviour
         form.AddField("loginUser", username);
         form.AddField("loginNick", nick);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://porose-poisons.000webhostapp.com/sqlconnect/Login.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/Login.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -90,7 +90,7 @@ public class Web : MonoBehaviour
         form.AddField("loginBirthDate", Int16.Parse(birthDate));
         form.AddField("loginGender", gender);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://porose-poisons.000webhostapp.com/sqlconnect/RegisterUser.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/RegisterUser.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -113,7 +113,7 @@ public class Web : MonoBehaviour
         form.AddField("loginNG", numberGames.ToString());
         form.AddField("loginFUser", FUser);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://porose-poisons.000webhostapp.com/sqlconnect/RegisterSession.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/RegisterSession.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -129,7 +129,7 @@ public class Web : MonoBehaviour
         }
     }
 
-    public IEnumerator RegisterMatchGame(int arraysize, int timelimit,string theme, string FSession)
+    public IEnumerator RegisterMatchGame(int arraysize, int timelimit,string theme, string FSession, double avgPareja, double finaltime, int score, int perception)
     {
         WWWForm form = new WWWForm();
         form.AddField("loginArraySize", arraysize);
@@ -138,7 +138,7 @@ public class Web : MonoBehaviour
         form.AddField("loginFSession", FSession);
 
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://porose-poisons.000webhostapp.com/sqlconnect/RegisterMatchGame.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/RegisterMatchGame.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -152,11 +152,11 @@ public class Web : MonoBehaviour
                 Debug.Log(mj);
                 Main.Instance.MatchGameInfo.SetIdMatch(mj.ToString());
 
-                //Intento
+                /*//Intento
                 double avgPareja = Math.Round(Main.Instance.PerformanceInfo.AvgCouples, 2);
                 double finaltime = Math.Round(Main.Instance.PerformanceInfo.FinalTime, 2);
                 int score = Main.Instance.PerformanceInfo.Score;
-                int perception = Main.Instance.PerformanceInfo.PerceptionDifficulty;
+                int perception = Main.Instance.PerformanceInfo.PerceptionDifficulty;*/
                 string FMatch = Main.Instance.MatchGameInfo.MatchGameId;
 
                 StartCoroutine(Main.Instance.web.RegisterPerformance(avgPareja, finaltime, score, perception, FMatch));
@@ -174,7 +174,7 @@ public class Web : MonoBehaviour
         Debug.Log(idMatch);
         form.AddField("loginFMatch", idMatch);
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://porose-poisons.000webhostapp.com/sqlconnect/RegisterPerformance.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/RegisterPerformance.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -196,7 +196,7 @@ public class Web : MonoBehaviour
         form.AddField("loginTotalTime", totalTime.ToString());
         form.AddField("loginNG", numberGames.ToString());
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://porose-poisons.000webhostapp.com/sqlconnect/ModifyDataSession.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/ModifyDataSession.php", form))
         {
             yield return www.SendWebRequest();
 

@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         main = FindObjectOfType<Main>();
+        Time.timeScale = 1;
         tiempoSesion = main.SessionInfo.Totaltime;
     }
     public void ActivarEscenaPostJuego() 

@@ -25,6 +25,7 @@ public class CardDefinition : MonoBehaviour
 
     private void OnMouseDown()
     {
+        //Debug.Log("Click");
         if (Carta.activeSelf && controller.state)
         {
             Carta.SetActive(false);
@@ -47,8 +48,6 @@ public class CardDefinition : MonoBehaviour
 
     public int id { get { return _id; } }
     public float tiempoPareja { get { return _tiempoPareja; } }
-    // recordar que estoy definiciendo el tiempo pareja con tal de que al levante una carta esta inicie un timer y posteriormente
-    // cuando consiga encontrar la pareja de esta, comparare los tiempos de ambas cartas y escogere el mayor tiempo
 
     public void ActivarCartaInicial(bool a) 
     {

@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour
     {
         main = FindObjectOfType<Main>();
 
-        int[] optiontime = new int[] {30,30,30};
+        int[] optiontime = new int[] {100,100,100};
         timeUpText.SetActive(false);
         timbeBar = GetComponent<Image>();
         int numparejas = _Mechanica.griCols;
@@ -70,7 +70,7 @@ public class Timer : MonoBehaviour
             else if (_Mechanica.gameCompleted) 
             {
                 main.PerformanceInfo.SetAvgCouples(_Mechanica.avgPareja);
-                main.PerformanceInfo.SetFinalTime(timeLeft);
+                main.PerformanceInfo.SetFinalTime(maxTime - timeLeft);
                 main.PerformanceInfo.SetScore(_Mechanica._score);
 
                 ganador.SetActive(true);

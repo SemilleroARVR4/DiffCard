@@ -15,6 +15,7 @@ public class MechanicalControl : MonoBehaviour
     public bool gameCompleted;
     public float TTPareja = 0f;
     public float avgPareja = 0f;
+    private float ParametroAjuste = 17f;
 
     private CardDefinition _firstReveaked;
     private CardDefinition _sconRevealed;
@@ -35,6 +36,7 @@ public class MechanicalControl : MonoBehaviour
     [SerializeField]
     private GameController _GameController;
     Main main;
+    
 
 
     // Start is called before the first frame update
@@ -44,9 +46,10 @@ public class MechanicalControl : MonoBehaviour
         Vector3 origPos = originalCard.transform.position;
 
         griCols = main.MatchGameInfo.Arraysize;
-        originalCard.transform.position = new Vector3(origPos.x - offsetX*3, origPos.y, origPos.z);
+        originalCard.transform.position = new Vector3(origPos.x - ParametroAjuste*griCols, origPos.y, origPos.z);
 
         DecidirTema(main.MatchGameInfo.Theme);
+        //DecidirTema("Frutas");
         StartCoroutine(WaitSecond());  
     }
 
@@ -121,6 +124,7 @@ public class MechanicalControl : MonoBehaviour
 
         Vector3 startPos = originalCard.transform.position;
         List<int> numbers = DecidirParejas(main.MatchGameInfo.Arraysize);
+        //List<int> numbers = DecidirParejas(griCols);
 
         numbers = ShufflerArray(numbers);
 
@@ -145,7 +149,6 @@ public class MechanicalControl : MonoBehaviour
                 int id = numbers[index];
 
                 card.ChangeSprite(id, images[id]);
-
                 float posX = (offsetX * i) + startPos.x;
                 float posY = (offeseY * j) + startPos.y;
 

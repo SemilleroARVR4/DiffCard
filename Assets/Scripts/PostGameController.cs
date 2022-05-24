@@ -17,6 +17,7 @@ public class PostGameController : MonoBehaviour
     private double tiempoSesion;
     private void Start()
     {
+        Time.timeScale = 1;
         main = FindObjectOfType<Main>();
         tiempoSesion = main.SessionInfo.Totaltime;
     }
@@ -67,48 +68,43 @@ public class PostGameController : MonoBehaviour
     public void EjecutarBtnSeguirJugando(string a)
     {
 
-        int numbergames = main.SessionInfo.NumberGames + 1;
-
+        int numbergames = main.SessionInfo.NumberGames+1;
+        main.SessionInfo.SetNumberGames(numbergames);
         //Match Game
         int arraySize = main.MatchGameInfo.Arraysize;
         int timelimit = main.MatchGameInfo.Timelimit;
         string theme = main.MatchGameInfo.Theme;
         string Fsesion = main.SessionInfo.SessionId;
 
+        //Intento
+        double avgPareja = Math.Round(main.PerformanceInfo.AvgCouples, 2);
+        double finaltime = Math.Round(main.PerformanceInfo.FinalTime, 2);
+        int score = main.PerformanceInfo.Score;
+        int perception = main.PerformanceInfo.PerceptionDifficulty;
+
         switch (a)
         {
             case "Seguir":
-                main.SessionInfo.SetNumberGames(numbergames);
-                StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion));
+                StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion,avgPareja,finaltime,score,perception));
 
-                //SceneManager.LoadScene("Menu_Game");
+                StartCoroutine(WaitSecond("Menu_Game"));
 
                 break;
 
             case "Salir":
-                main.SessionInfo.SetNumberGames(numbergames);
 
                 double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
-                numbergames = main.SessionInfo.NumberGames;
                 string idSession = main.SessionInfo.SessionId;
 
                 StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
-                StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion));
+                StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion, avgPareja, finaltime, score, perception));
+                //La solicitud de agregar el performance esta en la funcion "registerMatchGame"
 
-
-                //Performances
-                /*double avgPareja = Math.Round(main.PerformanceInfo.AvgCouples, 2);
-                double finaltime = Math.Round(main.PerformanceInfo.FinalTime, 2);
-                int score = main.PerformanceInfo.Score;
-                int perception = main.PerformanceInfo.PerceptionDifficulty;
-                string FMatch = main.MatchGameInfo.MatchGameId;
-                Debug.Log(FMatch);*/
-
-                //StartCoroutine(WaitSecond(avgPareja, finaltime, score, perception, FMatch));
-                //SceneManager.LoadScene("Inicial_Registro");
+                StartCoroutine(WaitSecond("Inicial_Registro"));
                 break;
         }
     }
+
 
     private void OnApplicationQuit()
     {
@@ -118,6 +114,15 @@ public class PostGameController : MonoBehaviour
 
         StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
     }
+
+    private IEnumerator WaitSecond(string a)
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(a);
+    }
+
+
+
 
 
 }
