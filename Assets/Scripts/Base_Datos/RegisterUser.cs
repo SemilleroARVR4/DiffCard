@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class RegisterUser : MonoBehaviour
     public InputField birthDate;
     public Dropdown   gender;
     public Button     SubmitButton;
+    public Text advertencia;
     private Main main;
 
 
@@ -19,10 +21,19 @@ public class RegisterUser : MonoBehaviour
         main = FindObjectOfType<Main>();
         SubmitButton.onClick.AddListener(() => {
             string genderText = "Masculino";
-            if (gender.value == 0) { genderText = "Masculino"; }
-            if (gender.value == 1) { genderText = "Femenino"; }
-            if (gender.value == 2) { genderText = "Otro"; }
-            StartCoroutine(main.web.RegisterUser(usernameInput.text, nick.text,birthDate.text,genderText)); 
+            try
+            {
+                int d = Int32.Parse(birthDate.text);
+                if (gender.value == 0) { genderText = "Masculino"; }
+                if (gender.value == 1) { genderText = "Femenino"; }
+                if (gender.value == 2) { genderText = "Otro"; }
+                advertencia.text = "";
+                StartCoroutine(main.web.RegisterUser(usernameInput.text, nick.text, birthDate.text, genderText));
+            }
+            catch (Exception e)
+            {
+                advertencia.text = "Error intente de nuevo";
+            }
         });
 
     }

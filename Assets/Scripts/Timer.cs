@@ -23,25 +23,10 @@ public class Timer : MonoBehaviour
     {
         main = FindObjectOfType<Main>();
 
-        int[] optiontime = new int[] {100,100,100};
         timeUpText.SetActive(false);
         timbeBar = GetComponent<Image>();
-        int numparejas = _Mechanica.griCols;
 
-        switch (numparejas) 
-        {
-            case 4:
-                maxTime = optiontime[0];
-                break;
-            case 6:
-                maxTime = optiontime[1];
-                break;
-            case 8:
-                maxTime = optiontime[2];
-                break;
-
-        }
-        main.MatchGameInfo.SetTimeLimit(maxTime);
+        maxTime = main.MatchGameInfo.Timelimit;
         timeLeft = maxTime;
         
     }

@@ -14,12 +14,15 @@ public class MenuGameController : MonoBehaviour
     private Text textTema;
     [SerializeField]
     private Text textParejas;
+    [SerializeField]
+    private Text textTiempo;
 
     private string[] temasJuego;
     private int index_T = 0;
     private int nParejas = 4;
     private int maxParejas = 8;
     private double tiempoSesion;
+    private int tiempolimite = 10;
     public Main main;
 
     private void Start()
@@ -77,11 +80,27 @@ public class MenuGameController : MonoBehaviour
                 }
                 textParejas.text = nParejas.ToString();
                 break;
+            case "TJD":
+                tiempolimite += 10;
+                if (tiempolimite > 60) 
+                {
+                    tiempolimite = 60;
+                }
+                textTiempo.text = tiempolimite.ToString();
+                break;
+            case "TJI":
+                tiempolimite -= 10;
+                if (tiempolimite < 10)
+                {
+                    tiempolimite = 10;
+                }
+                textTiempo.text = tiempolimite.ToString();
+                break;
             case "Jugar":
 
                 main.MatchGameInfo.SetTheme(temasJuego[index_T]);
                 main.MatchGameInfo.SetArraySize(nParejas);
-
+                main.MatchGameInfo.SetTimeLimit(tiempolimite);
                 SceneManager.LoadScene("Game");
                 break;
                         
