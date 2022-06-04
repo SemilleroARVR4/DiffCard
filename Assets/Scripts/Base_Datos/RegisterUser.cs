@@ -14,6 +14,10 @@ public class RegisterUser : MonoBehaviour
     public Text advertencia;
     private Main main;
 
+    private void Update()
+    {
+        advertencia.text = main.web.message;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -23,16 +27,17 @@ public class RegisterUser : MonoBehaviour
             string genderText = "Masculino";
             try
             {
+                advertencia.text = "";
                 int d = Int32.Parse(birthDate.text);
                 if (gender.value == 0) { genderText = "Masculino"; }
                 if (gender.value == 1) { genderText = "Femenino"; }
                 if (gender.value == 2) { genderText = "Otro"; }
-                advertencia.text = "";
                 StartCoroutine(main.web.RegisterUser(usernameInput.text, nick.text, birthDate.text, genderText));
             }
             catch (Exception e)
             {
-                advertencia.text = "Error intente de nuevo";
+                main.web.message = "Error intente de nuevo";
+                advertencia.text = main.web.message;
             }
         });
 

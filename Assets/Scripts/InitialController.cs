@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using UnityEngine.UI;
 
 public class InitialController : MonoBehaviour
 {
@@ -10,7 +11,8 @@ public class InitialController : MonoBehaviour
     GameObject _InicioScene;
     [SerializeField]
     GameObject _RegistroScene;
-    private double tiempoSesion;
+    [SerializeField]
+    Text message; 
     public Main main;
 
     // Start is called before the first frame update
@@ -25,7 +27,6 @@ public class InitialController : MonoBehaviour
 
 
         Time.timeScale = 0;
-        tiempoSesion = main.SessionInfo.Totaltime;
 
         string format = "dd MMM yyyy";
         main.SessionInfo.SetDate(DateTime.Now.ToString(format));
@@ -33,7 +34,13 @@ public class InitialController : MonoBehaviour
         _InicioScene.SetActive(true);
         _RegistroScene.SetActive(false);
     }
-    
+
+    private void Update()
+    {
+        message.text = main.web.message;     
+    }
+
+
     public void EjecutarBtnInicio(string a)
     {
         switch (a)
@@ -41,7 +48,7 @@ public class InitialController : MonoBehaviour
             case "Registro":
                 _InicioScene.SetActive(false);
                 _RegistroScene.SetActive(true);
-                Debug.Log(Time.deltaTime);
+                main.web.message = "";
                 break;
         }
     }
@@ -53,6 +60,7 @@ public class InitialController : MonoBehaviour
             case "Cancelar":
                 _InicioScene.SetActive(true);
                 _RegistroScene.SetActive(false);
+                main.web.message = "";
                 break;
         }
     }

@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 public class Web : MonoBehaviour
 {
+    public string message = "";
 
     IEnumerator GetUsers()
     {
@@ -42,8 +43,8 @@ public class Web : MonoBehaviour
     public IEnumerator Login(string username, string nick)
     {
         WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginNick", nick);
+        form.AddField("loginUser", username.ToLower());
+        form.AddField("loginNick", nick.ToLower());
 
         using (UnityWebRequest www = UnityWebRequest.Post("http://porose-poisons.000webhostapp.com/sqlconnect/Login.php", form))
         {
@@ -62,6 +63,7 @@ public class Web : MonoBehaviour
                 if (www.downloadHandler.text.Contains("Wrong Credentials") || www.downloadHandler.text.Contains("Username does not exists"))
                 {
                     Debug.Log("Try Again");
+                    message = "Intenta de nuevo";
                 }
                 else
                 {
@@ -75,7 +77,7 @@ public class Web : MonoBehaviour
 
                     StartCoroutine(Main.Instance.web.RegisterSession(dateSS, totaltime, numbergames, fUser));
 
-
+                    message = "Usuario iniciado";
                     SceneManager.LoadScene("Menu_Game");
                 }
             }
@@ -85,8 +87,8 @@ public class Web : MonoBehaviour
     public IEnumerator RegisterUser(string username, string nick, string birthDate,string gender)
     {
         WWWForm form = new WWWForm();
-        form.AddField("loginUser", username);
-        form.AddField("loginNick", nick);
+        form.AddField("loginUser", username.ToLower());
+        form.AddField("loginNick", nick.ToLower());
         form.AddField("loginBirthDate", Int16.Parse(birthDate));
         form.AddField("loginGender", gender);
 
@@ -97,10 +99,19 @@ public class Web : MonoBehaviour
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Debug.Log(www.error);
+                message = "Error, intenta de nuevo";
             }
             else
             {
+                if (www.downloadHandler.text == "Username is already taken")
+                {
+                    message = "Ya existe este usuario";
+                } else if (www.downloadHandler.text == "Creating user...New record created successfully") 
+                {
+                    message = "Usuario creado";
+                }
                 Debug.Log(www.downloadHandler.text);
+                
             }
         }
     }

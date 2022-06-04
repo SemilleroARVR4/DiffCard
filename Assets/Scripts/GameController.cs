@@ -27,7 +27,7 @@ public class GameController : MonoBehaviour
         main.SessionInfo.SetTotalTime(tiempoSesion);
     }
 
-    private void OnApplicationQuit()
+    private void OnApplicationPause()
     {
         double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
         int numbergames = main.SessionInfo.NumberGames;
