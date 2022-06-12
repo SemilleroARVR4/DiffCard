@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
         main = FindObjectOfType<Main>();
         Time.timeScale = 1;
         tiempoSesion = main.SessionInfo.Totaltime;
+        ModificarSession();
     }
     public void ActivarEscenaPostJuego() 
     {
@@ -28,6 +29,15 @@ public class GameController : MonoBehaviour
     }
 
     private void OnApplicationPause()
+    {
+        double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
+        int numbergames = main.SessionInfo.NumberGames;
+        string idSession = main.SessionInfo.SessionId;
+
+        StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
+    }
+
+    void ModificarSession() 
     {
         double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
         int numbergames = main.SessionInfo.NumberGames;

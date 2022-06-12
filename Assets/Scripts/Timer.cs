@@ -46,7 +46,7 @@ public class Timer : MonoBehaviour
                 timeUpText.SetActive(true);
 
                 main.PerformanceInfo.SetAvgCouples(_Mechanica.avgPareja);
-                main.PerformanceInfo.SetFinalTime(timeLeft);
+                main.PerformanceInfo.SetFinalTime(maxTime);
                 main.PerformanceInfo.SetScore(_Mechanica._score);
 
                 StartCoroutine(Wait());

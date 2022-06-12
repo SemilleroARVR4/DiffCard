@@ -20,6 +20,7 @@ public class PostGameController : MonoBehaviour
         Time.timeScale = 1;
         main = FindObjectOfType<Main>();
         tiempoSesion = main.SessionInfo.Totaltime;
+        DeclaracionSession();
     }
 
     private void Update()
@@ -30,6 +31,10 @@ public class PostGameController : MonoBehaviour
 
     public void EjecutarBtnEncuesta(string a)
     {
+        int numbergames = main.SessionInfo.NumberGames + 1;
+        main.SessionInfo.SetNumberGames(numbergames);
+        DeclaracionSession();
+
         switch (a)
         {
             case "1":
@@ -63,18 +68,18 @@ public class PostGameController : MonoBehaviour
                 _ContinuarScene.SetActive(true);
                 break;
         }
+        DeclaracionMatch();
     }
 
     public void EjecutarBtnSeguirJugando(string a)
     {
 
-        int numbergames = main.SessionInfo.NumberGames+1;
-        main.SessionInfo.SetNumberGames(numbergames);
         //Match Game
         int arraySize = main.MatchGameInfo.Arraysize;
         int timelimit = main.MatchGameInfo.Timelimit;
         string theme = main.MatchGameInfo.Theme;
         string Fsesion = main.SessionInfo.SessionId;
+        int numbergames = main.SessionInfo.NumberGames;
 
         //Intento
         double avgPareja = Math.Round(main.PerformanceInfo.AvgCouples, 2);
@@ -85,7 +90,7 @@ public class PostGameController : MonoBehaviour
         switch (a)
         {
             case "Seguir":
-                StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion,avgPareja,finaltime,score,perception));
+                //StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion,avgPareja,finaltime,score,perception));
 
                 StartCoroutine(WaitSecond("Menu_Game"));
 
@@ -97,7 +102,7 @@ public class PostGameController : MonoBehaviour
                 string idSession = main.SessionInfo.SessionId;
 
                 StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
-                StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion, avgPareja, finaltime, score, perception));
+                //StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion, avgPareja, finaltime, score, perception));
                 //La solicitud de agregar el performance esta en la funcion "registerMatchGame"
 
                 StartCoroutine(WaitSecond("Inicial_Registro"));
@@ -115,9 +120,41 @@ public class PostGameController : MonoBehaviour
         StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
     }
 
+    public void DeclaracionSession() 
+    {
+        double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
+        int numbergames = main.SessionInfo.NumberGames;
+        string idSession = main.SessionInfo.SessionId;
+
+        StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
+    }
+
+    public void DeclaracionMatch() 
+    {
+        double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
+        string idSession = main.SessionInfo.SessionId;
+
+        //Match Game
+        int arraySize = main.MatchGameInfo.Arraysize;
+        int timelimit = main.MatchGameInfo.Timelimit;
+        string theme = main.MatchGameInfo.Theme;
+        string Fsesion = main.SessionInfo.SessionId;
+        int numbergames = main.SessionInfo.NumberGames;
+
+        //Intento
+        double avgPareja = Math.Round(main.PerformanceInfo.AvgCouples, 2);
+        double finaltime = Math.Round(main.PerformanceInfo.FinalTime, 2);
+        int score = main.PerformanceInfo.Score;
+        int perception = main.PerformanceInfo.PerceptionDifficulty;
+        StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
+        StartCoroutine(main.web.RegisterMatchGame(arraySize, timelimit, theme, Fsesion, avgPareja, finaltime, score, perception));
+
+    }
+
+
     private IEnumerator WaitSecond(string a)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(a);
     }
 

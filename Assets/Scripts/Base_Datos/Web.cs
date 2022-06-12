@@ -77,7 +77,7 @@ public class Web : MonoBehaviour
 
                     StartCoroutine(Main.Instance.web.RegisterSession(dateSS, totaltime, numbergames, fUser));
 
-                    message = "Usuario iniciado";
+                    message = "";
                     SceneManager.LoadScene("Menu_Game");
                 }
             }

@@ -34,7 +34,8 @@ public class MenuGameController : MonoBehaviour
 
         textTema.text = "Frutas";
         textParejas.text = "4";
-        temasJuego = new string[] {"Frutas","Animales"};    
+        temasJuego = new string[] {"Frutas","Animales"};
+        ModificarSession();
     }
 
     private void Update()
@@ -108,6 +109,15 @@ public class MenuGameController : MonoBehaviour
     }
 
     private void OnApplicationPause()
+    {
+        double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
+        int numbergames = main.SessionInfo.NumberGames;
+        string idSession = main.SessionInfo.SessionId;
+
+        StartCoroutine(main.web.ModifyDataSession(idSession, totaltime, numbergames));
+    }
+
+    void ModificarSession() 
     {
         double totaltime = Math.Round(main.SessionInfo.Totaltime, 2);
         int numbergames = main.SessionInfo.NumberGames;
