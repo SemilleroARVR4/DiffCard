@@ -171,6 +171,9 @@ public class Web : MonoBehaviour
                 string FMatch = Main.Instance.MatchGameInfo.MatchGameId;
 
                 StartCoroutine(Main.Instance.web.RegisterPerformance(avgPareja, finaltime, score, perception, FMatch));
+                Main.Instance.MatchGameInfo.SetIdMatch("");
+                mj = "";
+                
             }
         }
     }

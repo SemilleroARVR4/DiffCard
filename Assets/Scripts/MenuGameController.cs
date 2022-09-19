@@ -31,7 +31,8 @@ public class MenuGameController : MonoBehaviour
         Time.timeScale = 1;
 
         tiempoSesion = main.SessionInfo.Totaltime;
-
+        main.MatchGameInfo.SetIdMatch("");
+        main.PerformanceInfo.SetIdMatch("");
         textTema.text = "Frutas";
         textParejas.text = "4";
         temasJuego = new string[] {"Frutas","Animales"};
@@ -103,6 +104,8 @@ public class MenuGameController : MonoBehaviour
                 main.MatchGameInfo.SetArraySize(nParejas);
                 main.MatchGameInfo.SetTimeLimit(tiempolimite);
                 SceneManager.LoadScene("Game");
+                Debug.Log(main.MatchGameInfo.MatchGameId);
+                Debug.Log(main.PerformanceInfo.IdMatch);
                 break;
                         
         }
